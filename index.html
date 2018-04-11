@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<style>
+    body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: #E9E9E9;
+    }
+
+    .icon-image {
+        height: 200px;
+        width: 190px;
+        object-fit: contain;
+        margin-bottom: 50px;
+    }
+
+    .uploadContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .titleContainer {
+        background: #252525;
+        padding: 40px;
+        padding-left: 10%;
+        border-bottom: #C7C7C7 10px solid;
+        border-top: #C7C7C7 10px solid;
+        width: 100%;
+        color: white;
+        font-size: 22px;
+        margin-bottom: 50px;
+    }
+
+    .btnChooseFile {
+        background: #5BC15F;
+        padding: 10px 40px;
+        color: white;
+        font-size: 20px;
+        border-radius: 15px;
+    }
+
+    .btnUpload {
+        padding: 10px 40px;
+        background-color: #8B4AA8;
+        color: white;
+        font-size: 20px;
+        border-radius: 15px;
+        margin-top: 50px;
+    }
+</style>
+
+<head>
+    <title>Simple Multer Upload Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <img class="icon-image" alt="img-icon" src="/logo.jpg" />
+    <div class='titleContainer'>
+        Remitano Mobile Reactive Assignment
+    </div>
+
+    <form action="/" enctype="multipart/form-data" method="post" class="uploadContainer">
+        <label for="file-upload" class="btnChooseFile">
+            Choose File
+        </label>
+        <input id="file-upload" name='input_upload' type="file" style="display:none;">
+
+        <br/>
+        <button class='btnUpload' type='submit'>
+            Upload File
+        </button>
+    </form>
+
+</body>
+
+<script>
+    $('#file-upload').change(function () {
+        var i = $(this).prev('label').clone();
+        var file = 'Your file: ' + $('#file-upload')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });
+</script>
+
+</html>
