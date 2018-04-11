@@ -29,8 +29,8 @@ app.post('/', function (req, res) {
             }
             else {
                 console.log(uploadpath)
-                // res.sendfile(path.resolve(uploadpath));
-                res.send('<a style="font-size:30px;" href="http://file:///' + uploadpath + '">' + uploadpath + '</a>')
+                res.sendfile(path.resolve(uploadpath));
+                // res.send('<a style="font-size:30px;" href="http://file:///' + uploadpath + '">' + uploadpath + '</a>')
             }
         });
     }
