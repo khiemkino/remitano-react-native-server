@@ -7,12 +7,17 @@ var path = require('path')
 // });
 
 const app = express();
+var uploadpathServer
 
 app.use(upload());
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/upload', (req, res) => {
+    res.sendfile(path.resolve(uploadpathServer));
 });
 
 app.post('/', function (req, res) {
@@ -29,8 +34,10 @@ app.post('/', function (req, res) {
             }
             else {
                 console.log(uploadpath)
-                res.sendfile(path.resolve(uploadpath));
-                // res.send('<a style="font-size:30px;" href="http://file:///' + uploadpath + '">' + uploadpath + '</a>')
+                uploadpathServer = uploadpath
+                res.send('<form method="post" action="/upload">' +
+                    '<button style="padding: 10px 40px;background-color: #8B4AA8;color: white;font-size: 20px;border-radius: 15px;margin-top: 50px;" type="submit">' + 'Open your file : ' + name + '</button>' +
+                    '</form>')
             }
         });
     }
