@@ -21,7 +21,7 @@ app.post('/', function (req, res) {
         var file = req.files.input_upload
         var name = file.name
 
-        var uploadpath = __dirname + '/public/' + name;
+        var uploadpath = '/public/' + name;
         file.mv(uploadpath, function (err) {
             if (err) {
                 console.log("File Upload Failed", name, err);
@@ -29,7 +29,7 @@ app.post('/', function (req, res) {
             }
             else {
                 console.log(uploadpath)
-                res.send("<a href=" + 'file:///' + uploadpath + ">" + uploadpath + "</a>")
+                res.send('<a style="font-size:30px;" href="http://file:///' + uploadpath + '">' + uploadpath + '</a>')
             }
         });
     }
