@@ -1,50 +1,38 @@
-const express = require('express');
-// const multer = require('multer');
-var upload = require('express-fileupload');
+const express = require('express')
+const upload = require('express-fileupload')
 var path = require('path')
-// const upload = multer({
-//     dest: 'public/'
-// });
 
-const app = express();
-var uploadpathServer
+const app = express()
 
-app.use(upload());
-app.use(express.static(__dirname + '/public'));
+var uploadDir = path.join(__dirname, '/public')
 
+var port = process.env.PORT || 3000
+app.set('port', port)
+app.use(upload())
+app.use(express.static(uploadDir))
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+    res.sendFile(__dirname + '/index.html')
+})
 
-app.post('/upload', (req, res) => {
-    res.sendfile(path.resolve(uploadpathServer));
-});
 
-app.post('/', function (req, res) {
-    console.log(req.files);
-    if (req.files.input_upload) {
-        var file = req.files.input_upload
-        var name = file.name
+app.post('/upload', function (req, res) {
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.')
 
-        var uploadpath = __dirname + '/public/' + name;
-        file.mv(uploadpath, function (err) {
-            if (err) {
-                console.log("File Upload Failed", name, err);
-                res.send("Error Occured!")
-            }
-            else {
-                console.log(uploadpath)
-                uploadpathServer = uploadpath
-                res.send('<form method="post" action="/upload">' +
-                    '<button style="padding: 10px 40px;background-color: #8B4AA8;color: white;font-size: 20px;border-radius: 15px;margin-top: 50px;" type="submit">' + 'Open your file : ' + name + '</button>' +
-                    '</form>')
-            }
-        });
-    }
-    else {
-        res.send("No File selected !");
-        res.end();
-    };
-});
+    let uploadFile = req.files.uploadFile
+    let fileName = req.files.uploadFile.name
 
-app.listen(process.env.PORT || 3000);
+    uploadFile.mv(path.join(uploadDir, fileName), function (err) {
+        if (err)
+            return res.status(500).send(err)
+
+        res.send(`<a target="_blank" href="/${fileName}">${fileName}</a>`)
+    })
+})
+
+var server = require('http').Server(app)
+
+server.listen(port, () => {
+    console.log('App is running at port' + port)
+})
+

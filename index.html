@@ -21,13 +21,6 @@
         margin-bottom: 50px;
     }
 
-    .uploadContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
     .titleContainer {
         background: #252525;
         padding: 40px;
@@ -40,13 +33,6 @@
         margin-bottom: 50px;
     }
 
-    .btnChooseFile {
-        background: #5BC15F;
-        padding: 10px 40px;
-        color: white;
-        font-size: 20px;
-        border-radius: 15px;
-    }
 
     .btnUpload {
         padding: 10px 40px;
@@ -54,7 +40,7 @@
         color: white;
         font-size: 20px;
         border-radius: 15px;
-        margin-top: 50px;
+        margin-top: 20px;
     }
 </style>
 
@@ -70,24 +56,19 @@
         Remitano Mobile Reactive Assignment
     </div>
 
-    <form action="/" enctype="multipart/form-data" method="post" class="uploadContainer">
-        <label for="file-upload" class="btnChooseFile">
-            Choose File
-        </label>
-        <input id="file-upload" name='input_upload' type="file" style="display:none;">
 
-        <br/>
-        <button class='btnUpload' type='submit'>Upload File</button>
-    </form>
+    <button onclick="window.postMessage('upload_file')" class='btnUpload' type='submit'>Upload File</button>
+    <a class='btnUpload' id="open_file" href="#" onclick="window.postMessage('open_file')"></a>
+
 
 </body>
 
 <script>
-    $('#file-upload').change(function () {
-        var i = $(this).prev('label').clone();
-        var file = 'Your file: ' + $('#file-upload')[0].files[0].name;
-        $(this).prev('label').text(file);
-    });
+    document.addEventListener("message", function (data) {
+        var fileName = data.data
+        var e = document.getElementById('open_file')
+        e.innerHTML = fileName
+    })
 </script>
 
 </html>
